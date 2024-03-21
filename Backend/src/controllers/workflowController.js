@@ -39,7 +39,7 @@ async function executeTasks(tasks) {
     try {
       switch (task.type) {
         case 'Filter Data':
-          // Implement logic to filter data
+          task.data = await filterData(task.data, task.criteria);
           break;
         case 'Wait':
           await wait(task.duration);
@@ -92,8 +92,9 @@ function csvToJson(data) {
 
 async function sendPostRequest(url, payload) {
   try {
-    // Implement logic to send POST request
-    console.log(`POST request sent to ${url}`);
+    const response = await axios.post(url, payload);
+    console.log(`POST request sent to ${url}, Response:`, response.data);
+    return response.data;
   } catch (error) {
     console.error(`Error sending POST request to ${url}: ${error.message}`);
   }
